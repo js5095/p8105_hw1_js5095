@@ -55,9 +55,9 @@ data("penguins", package = "palmerpenguins")
 ```
 
 The dataset "penguins" has multiple variables including `r ls(penguins)`. \
-Here are a summary of their values: `r summary(penguins)`. \
+Here is a summary of their values: `r summary(penguins)`. \
 The dataset has `r nrow(penguins)` rows and `r ncol(penguins)` columns. \
-The mean of flipper length is `r mean(na.omit(pull(penguins, flipper_length_mm)))` (excluding NA in the dataset).
+The mean of flipper length is `r mean(na.omit(pull(penguins, flipper_length_mm)))` (excluding NA from the data).
 
 ```{r plot, echo=FALSE, warning=FALSE}
 ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, color = species)) + geom_point()
