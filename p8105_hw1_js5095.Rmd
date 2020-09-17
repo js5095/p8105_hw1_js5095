@@ -1,28 +1,66 @@
 ---
 title: "p8105_hw1_js5095"
+author: Jianting Shi
+date: 09-17-2020
 output: github_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
 ```
 
-## R Markdown
+## Problem 1
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+Create a data frame with the specified elements.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r create_df}
+prob1_df = 
+  tibble(
+    samp = rnorm(10),
+    logi_vec = samp > 0,
+    char_vec = c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j"),
+    fact_vec = factor(c("up", "up", "up", "down", "down", "down", "down", "same", "same", "same")),
+  )
 ```
 
-## Including Plots
+Take the mean of each variable in the data frame.
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r mean_pull_var}
+mean(pull(prob1_df, samp))
+mean(pull(prob1_df, logi_vec))
+mean(pull(prob1_df, char_vec))
+mean(pull(prob1_df, fact_vec))
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+The function mean() only works in numeric and logical variables but not character or factor.
+
+```{r numeric_pull_var, results='hide', warning=FALSE}
+as.numeric(pull(prob1_df, logi_vec))
+as.numeric(pull(prob1_df, char_vec))
+as.numeric(pull(prob1_df, fact_vec))
+```
+
+The function as.numeric() can be applied to logical and factor variables but not character, as logical and factor variables contain indexes that can be converted to numeric values. However, factor variable with character levels need to be converted to numeric levels first. That may be the reason why mean() could only work on numeric and logical variables.
+
+```{r numeric_pull_var_2}
+as.numeric(pull(prob1_df, logi_vec)) * pull(prob1_df, samp)
+as.factor(pull(prob1_df, logi_vec)) * pull(prob1_df, samp)
+as.numeric(as.factor(pull(prob1_df, logi_vec))) * pull(prob1_df, samp)
+```
+
+## Problem 2
+
+```{r}
+data("penguins", package = "palmerpenguins")
+```
+
+The dataset "penguins" has multiple variables including `r ls(penguins)`. \
+Here are a summary of their values: `r summary(penguins)`. \
+The dataset has `r nrow(penguins)` rows and `r ncol(penguins)` columns. \
+The mean of flipper length is `r mean(na.omit(pull(penguins, flipper_length_mm)))` (excluding NA in the dataset).
+
+```{r plot, echo=FALSE, warning=FALSE}
+ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, color = species)) + geom_point()
+ggsave("scatter_plot.pdf", height = 4, width = 6)
+```
+
