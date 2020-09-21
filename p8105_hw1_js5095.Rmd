@@ -50,7 +50,7 @@ as.numeric(as.factor(pull(prob1_df, logi_vec))) * pull(prob1_df, samp)
 
 ## Problem 2
 
-```{r}
+```{r prob2_df}
 data("penguins", package = "palmerpenguins")
 ```
 
