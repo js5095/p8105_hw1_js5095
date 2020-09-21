@@ -55,7 +55,8 @@ data("penguins", package = "palmerpenguins")
 ```
 
 The dataset "penguins" has multiple variables including `r ls(penguins)`. \
-Here are a preview of the dataset: `r summary(penguins)`. \
+Here are a preview of the dataset: \
+`r capture.output(str(penguins))`. \
 The dataset has `r nrow(penguins)` rows and `r ncol(penguins)` columns. \
 The mean of flipper length is `r mean(na.omit(pull(penguins, flipper_length_mm)))` (excluding NA from the data).
 
